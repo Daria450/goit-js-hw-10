@@ -18,6 +18,9 @@ const refs = {
     seconds: document.querySelector("[data-seconds]"),
 }
 let userSelectedDate;
+refs.timerStartBtn.classList.add('disabled-button');
+refs.timerStartBtn.disabled = true;
+
 
 const options = {
     enableTime: true,
@@ -90,14 +93,15 @@ function onStartClick() {
     timerIntervalId = setInterval(() => {
         let currenntTimeLeft = userSelectedDate - new Date();
 
-        if (convertMs(currenntTimeLeft).days < 10) { refs.days.textContent = addLeadingZero(convertMs(currenntTimeLeft).days); }
-        else { refs.days.textContent = convertMs(currenntTimeLeft).days }
 
+        refs.days.textContent = addLeadingZero(convertMs(currenntTimeLeft).days);
         refs.hours.textContent = addLeadingZero(convertMs(currenntTimeLeft).hours);
         refs.minutes.textContent = addLeadingZero(convertMs(currenntTimeLeft).minutes);
         refs.seconds.textContent = addLeadingZero(convertMs(currenntTimeLeft).seconds);
+        if (convertMs(currenntTimeLeft).days > 99) { refs.days.textContent = convertMs(currenntTimeLeft).daystoString().padStart(3); }
 
-        if (currenntTimeLeft < 1000) {
+
+        if (convertMs(currenntTimeLeft).days === 0 && convertMs(currenntTimeLeft).hours === 0 && convertMs(currenntTimeLeft).minutes === 0 && convertMs(currenntTimeLeft).seconds === 0) {
             clearInterval(timerIntervalId);
         }
     }, 1000);

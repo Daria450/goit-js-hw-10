@@ -17,35 +17,38 @@ function onSubmitBtnClick(delay) {
     const promise = new Promise((resolve, reject) => {
 
         if (refs.fulfilledInp.checked) {
-            setTimeout(() => {
-                resolve(
-                    iziToast.show({
+            resolve(`Fulfilled promise in ${delay}ms`);
 
-                        title: '✅ OK',
-                        message: ` Fulfilled promise in ${delay}ms`,
-                        backgroundColor: '#59a10d',
-                        messageColor: '#fff',
-                        titleColor: '#fff',
-                        position: 'topRight',
-                        messageSize: '16px',
-                    })
-                );
-            }, delay)
         }
         if (refs.rejectedInp.checked) {
-            setTimeout(() => {
-                reject(
-                    iziToast.show({
-                        title: 'X Error',
-                        message: `Rejected promise in ${delay}ms`,
-                        backgroundColor: '#ef4040',
-                        messageColor: '#fff',
-                        titleColor: '#fff',
-                        position: 'topRight',
-                        messageSize: '16px',
-                    })
-                );
-            }, delay)
+            reject(`Rejected promise in ${delay}ms`);
+
         }
     });
+    promise.then(value => setTimeout(() => {
+        iziToast.show({
+            title: '✅ OK',
+            message: value,
+            backgroundColor: '#59a10d',
+            messageColor: '#fff',
+            titleColor: '#fff',
+            position: 'topRight',
+            messageSize: '16px',
+        })
+    }, delay))
+
+
+    promise.catch(
+        value => setTimeout(() => {
+            iziToast.show({
+                title: 'X Error',
+                message: value,
+                backgroundColor: '#ef4040',
+                messageColor: '#fff',
+                titleColor: '#fff',
+                position: 'topRight',
+                messageSize: '16px',
+            })
+        }, delay)
+    )
 }
