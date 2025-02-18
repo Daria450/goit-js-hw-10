@@ -27,11 +27,10 @@ const options = {
     time_24hr: true,
     defaultDate: new Date(),
     minuteIncrement: 1,
-    locale: "uk",
 
     onClose(selectedDates) {
         userSelectedDate = selectedDates[0];
-        if (userSelectedDate < options.defaultDate) {
+        if (userSelectedDate < new Date()) {
             iziToast.show({
                 title: 'Error',
                 message: 'Please choose a date in the future',
@@ -84,7 +83,6 @@ function addLeadingZero(value) {
 }
 
 function onStartClick() {
-    // const timerInitDate = userSelectedDate - options.defaultDate;
     refs.timerStartBtn.classList.add('disabled-button');
     refs.timerStartBtn.disabled = true;
     refs.dateTimePicker.disabled = true;
@@ -93,9 +91,6 @@ function onStartClick() {
     timerIntervalId = setInterval(() => {
         let currenntTimeLeft = userSelectedDate - new Date();
 
-        // const days = convertMs(currenntTimeLeft).days;
-        // const hours = convertMs(currenntTimeLeft).hours;
-        // const minutes = convertMs(currenntTimeLeft).minutes;
 
         const { days, hours, minutes, seconds } = convertMs(currenntTimeLeft);
         refs.days.textContent = addLeadingZero(days);
@@ -104,9 +99,12 @@ function onStartClick() {
         refs.seconds.textContent = addLeadingZero(seconds);
         if (convertMs(currenntTimeLeft).days > 99) { refs.days.textContent = convertMs(currenntTimeLeft).daystoString().padStart(3); }
 
-        const isTimerFinished = [days, hours, minutes, seconds].every(value => value === 0);
-        if (isTimerFinished) {
+        const timerArray = [days, hours, minutes, seconds];
+        if (timerArray.every(value => value <= 0)) {
             clearInterval(timerIntervalId);
+            refs.timerStartBtn.classList.remove('disabled-button');
+            refs.timerStartBtn.disabled = false;
+            refs.dateTimePicker.disabled = false;
         }
     }, 1000);
 
