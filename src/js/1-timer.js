@@ -106,6 +106,21 @@ function onStartClick() {
             refs.timerStartBtn.disabled = false;
             refs.dateTimePicker.disabled = false;
         }
+        if (timerArray.some(value => value < 0)) {
+            iziToast.show({
+                title: 'Error',
+                message: 'Please choose a date in the future',
+                backgroundColor: '#ef4040',
+                messageColor: '#fff',
+                titleColor: '#fff',
+                position: 'topRight',
+                titleSize: '16px',
+                messageSize: '16px',
+            });
+            refs.timerStartBtn.classList.add('disabled-button');
+            refs.timerStartBtn.disabled = true;
+        }
+
     }, 1000);
 
 }
