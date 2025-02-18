@@ -100,7 +100,7 @@ function onStartClick() {
         if (convertMs(currenntTimeLeft).days > 99) { refs.days.textContent = convertMs(currenntTimeLeft).daystoString().padStart(3); }
 
         const timerArray = [days, hours, minutes, seconds];
-        if (timerArray.every(value => value <= 0)) {
+        if (timerArray.every(value => value === 0)) {
             clearInterval(timerIntervalId);
             refs.timerStartBtn.classList.remove('disabled-button');
             refs.timerStartBtn.disabled = false;
