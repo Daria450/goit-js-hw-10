@@ -14,32 +14,29 @@ refs.submitBtn.addEventListener("click", (e) => { e.preventDefault(); onSubmitBt
 
 function onSubmitBtnClick(delay) {
 
+
     const promise = new Promise((resolve, reject) => {
-
-        if (refs.fulfilledInp.checked) {
-            resolve(`Fulfilled promise in ${delay}ms`);
-
-        }
-        if (refs.rejectedInp.checked) {
-            reject(`Rejected promise in ${delay}ms`);
-
-        }
+        if (refs.fulfilledInp.checked) { resolve(`Fulfilled promise in ${delay}ms`); }
+        if (refs.rejectedInp.checked) { reject(`Rejected promise in ${delay}ms`); }
     });
-    promise.then(value => setTimeout(() => {
-        iziToast.show({
-            title: '✅ OK',
-            message: value,
-            backgroundColor: '#59a10d',
-            messageColor: '#fff',
-            titleColor: '#fff',
-            position: 'topRight',
-            messageSize: '16px',
+
+
+    setTimeout(() => {
+        promise.then(value => {
+            iziToast.show({
+                title: '✅ OK',
+                message: value,
+                backgroundColor: '#59a10d',
+                messageColor: '#fff',
+                titleColor: '#fff',
+                position: 'topRight',
+                messageSize: '16px',
+            })
         })
-    }, delay))
+    }, delay)
 
-
-    promise.catch(
-        value => setTimeout(() => {
+    setTimeout(() => {
+        promise.catch(value => {
             iziToast.show({
                 title: 'X Error',
                 message: value,
@@ -49,6 +46,9 @@ function onSubmitBtnClick(delay) {
                 position: 'topRight',
                 messageSize: '16px',
             })
-        }, delay)
-    )
+        })
+    }, delay)
+
+
 }
+

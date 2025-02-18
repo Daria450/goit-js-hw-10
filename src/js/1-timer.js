@@ -93,15 +93,19 @@ function onStartClick() {
     timerIntervalId = setInterval(() => {
         let currenntTimeLeft = userSelectedDate - new Date();
 
+        // const days = convertMs(currenntTimeLeft).days;
+        // const hours = convertMs(currenntTimeLeft).hours;
+        // const minutes = convertMs(currenntTimeLeft).minutes;
 
-        refs.days.textContent = addLeadingZero(convertMs(currenntTimeLeft).days);
-        refs.hours.textContent = addLeadingZero(convertMs(currenntTimeLeft).hours);
-        refs.minutes.textContent = addLeadingZero(convertMs(currenntTimeLeft).minutes);
-        refs.seconds.textContent = addLeadingZero(convertMs(currenntTimeLeft).seconds);
+        const { days, hours, minutes, seconds } = convertMs(currenntTimeLeft);
+        refs.days.textContent = addLeadingZero(days);
+        refs.hours.textContent = addLeadingZero(hours);
+        refs.minutes.textContent = addLeadingZero(minutes);
+        refs.seconds.textContent = addLeadingZero(seconds);
         if (convertMs(currenntTimeLeft).days > 99) { refs.days.textContent = convertMs(currenntTimeLeft).daystoString().padStart(3); }
 
-
-        if (convertMs(currenntTimeLeft).days === 0 && convertMs(currenntTimeLeft).hours === 0 && convertMs(currenntTimeLeft).minutes === 0 && convertMs(currenntTimeLeft).seconds === 0) {
+        const isTimerFinished = [days, hours, minutes, seconds].every(value => value === 0);
+        if (isTimerFinished) {
             clearInterval(timerIntervalId);
         }
     }, 1000);
