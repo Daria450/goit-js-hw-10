@@ -14,14 +14,14 @@ refs.submitBtn.addEventListener("click", (e) => { e.preventDefault(); onSubmitBt
 
 function onSubmitBtnClick(delay) {
 
-
-    const promise = new Promise((resolve, reject) => {
-        if (refs.fulfilledInp.checked) { resolve(`Fulfilled promise in ${delay}ms`); }
-        if (refs.rejectedInp.checked) { reject(`Rejected promise in ${delay}ms`); }
-    });
-
-
     setTimeout(() => {
+        const promise = new Promise((resolve, reject) => {
+            if (refs.fulfilledInp.checked) { resolve(`Fulfilled promise in ${delay}ms`); }
+            if (refs.rejectedInp.checked) { reject(`Rejected promise in ${delay}ms`); }
+        });
+
+
+
         promise.then(value => {
             iziToast.show({
                 title: '✅ OK',
@@ -33,9 +33,7 @@ function onSubmitBtnClick(delay) {
                 messageSize: '16px',
             })
         })
-    }, delay)
 
-    setTimeout(() => {
         promise.catch(value => {
             iziToast.show({
                 title: 'X Error',
