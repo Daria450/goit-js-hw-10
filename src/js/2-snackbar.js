@@ -11,18 +11,33 @@ const refs = {
     delayPr: document.querySelector(".form-number"),
 }
 
-refs.form.addEventListener("submit", (e) => { e.preventDefault(); onSubmitBtnClick(refs.delayPr.value) });
+
+const params = {
+    state: null,
+    delay: null,
+}
+
+refs.form.addEventListener("submit", (e) => {
+
+    e.preventDefault();
+    if (e.currentTarget.querySelector(".fulfilled").checked) {
+        params.state = "fulfilled";
+    }
+    if (e.currentTarget.querySelector(".rejected").checked) {
+        params.state = "rejected";
+    }
+    params.delay = e.currentTarget.delay.value;
+
+    onSubmitBtnClick(refs.delayPr.value)
+});
 
 function onSubmitBtnClick(delay) {
 
     setTimeout(() => {
         const promise = new Promise((resolve, reject) => {
-            if (refs.fulfilledInp.checked) { resolve(`Fulfilled promise in ${delay}ms`); }
-            if (refs.rejectedInp.checked) { reject(`Rejected promise in ${delay}ms`); }
+            if (params.state === "fulfilled") { resolve(`Fulfilled promise in ${delay}ms`); }
+            if (params.state === "rejected") { reject(`Rejected promise in ${delay}ms`); }
         });
-
-
-
         promise.then(value => {
             iziToast.show({
                 title: '✅ OK',
@@ -44,8 +59,8 @@ function onSubmitBtnClick(delay) {
                 messageSize: '16px',
             })
         })
-    }, delay)
-
-
+        params.state = null;
+    }, params.delay)
+    params.delay = null;
 }
 
