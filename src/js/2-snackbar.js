@@ -10,7 +10,7 @@ const refs = {
 
 const params = {
     state: refs.form.elements.state,
-    delay: refs.form.elements.state,
+    delay: refs.form.elements.delay,
 }
 
 
@@ -18,6 +18,8 @@ const params = {
 refs.form.addEventListener("submit", (e) => {
 
     e.preventDefault();
+    params.state = e.currentTarget.elements.state;
+    params.delay = e.currentTarget.elements.delay;
 
     function createPromise(delay, state) {
 
@@ -35,6 +37,7 @@ refs.form.addEventListener("submit", (e) => {
 
     const promise = createPromise(params.delay.value, params.state.value);
 
+    // console.log(promise);
     promise
         .then(delay => {
             iziToast.show({
